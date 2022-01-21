@@ -4,12 +4,11 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Assignment3Application {
-	public static User[] users = null;
+	public static User[] users = new User[4];;
 	static UserService userService = new UserService();
 
 	public static void main(String[] args) {
 		BufferedReader fileReader = null;
-		users = new User[4];
 		try {
 			fileReader = new BufferedReader(new FileReader("data.txt"));
 			String line;
@@ -52,7 +51,7 @@ public class Assignment3Application {
 				if (checkedInUser == null) {
 					System.out.println("Invalid login, please try again");
 				}
-				if (loginAttempts >= 5) {
+				if (loginAttempts > 5) {
 					System.out.println("Too many failed login attempts, you are now locked out.");
 				}
 			}
