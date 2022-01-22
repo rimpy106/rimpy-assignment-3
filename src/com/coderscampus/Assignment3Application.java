@@ -35,25 +35,26 @@ public class Assignment3Application {
 		}
 
 		User checkedInUser = null;
-		int loginAttempts = 0;
+		int loginAttempts = 1;
 		try (Scanner scanner = new Scanner(System.in)) {
-			while (checkedInUser == null && loginAttempts < 5) {
+			while (checkedInUser == null && loginAttempts < 6) {
 				System.out.println("Enter username : ");
 				String consoleUserName = scanner.nextLine();
 
 				System.out.println("Enter password : ");
 				String consolePwd = scanner.nextLine();
 				checkedInUser = userService.validateUser(consoleUserName, consolePwd);
-				loginAttempts++;
+				
 				if (checkedInUser != null) {
 					System.out.println("Welcome: " + checkedInUser.getName());
 				}
 				if (checkedInUser == null) {
 					System.out.println("Invalid login, please try again");
 				}
-				if (loginAttempts > 5) {
+				if (loginAttempts >= 5 && checkedInUser == null ) {
 					System.out.println("Too many failed login attempts, you are now locked out.");
 				}
+				loginAttempts++;
 			}
 		}
 	}
