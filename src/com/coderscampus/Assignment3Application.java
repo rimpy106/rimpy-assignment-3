@@ -4,36 +4,12 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Assignment3Application {
-	public static User[] users = new User[4];;
+	public static User[] users = new User[4];
 	static UserService userService = new UserService();
+	static FileService fileService=new FileService();
 
 	public static void main(String[] args) {
-		BufferedReader fileReader = null;
-		try {
-			fileReader = new BufferedReader(new FileReader("data.txt"));
-			String line;
-			int i = 0;
-			while ((line = fileReader.readLine()) != null) {
-				String[] lineData = line.split(",");
-				users[i] = new User(lineData[0], lineData[1], lineData[2]);
-				i++;
-			}
-			/*
-			 * for (int k = 0; k < users.length; k++) {
-			 * System.out.println(users[k].toString()); }
-			 */
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				fileReader.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
+		users=fileService.readUserFromFile("data.txt");
 		User checkedInUser = null;
 		int loginAttempts = 1;
 		try (Scanner scanner = new Scanner(System.in)) {
@@ -47,11 +23,11 @@ public class Assignment3Application {
 				
 				if (checkedInUser != null) {
 					System.out.println("Welcome: " + checkedInUser.getName());
-				}
-				if (checkedInUser == null) {
+					break;
+				} else if (checkedInUser == null) {
 					System.out.println("Invalid login, please try again");
 				}
-				if (loginAttempts >= 5 && checkedInUser == null ) {
+				if (loginAttempts >= 5 && checkedInUser == null) {
 					System.out.println("Too many failed login attempts, you are now locked out.");
 				}
 				loginAttempts++;
